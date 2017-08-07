@@ -43,8 +43,6 @@ class SocialMediaRegistration extends \ls\pluginmanager\PluginBase
         ),
     );
 
-    private $buttons = array();
-
     public function init()
     {
         $this->subscribe('beforeRegisterForm');
@@ -62,8 +60,10 @@ class SocialMediaRegistration extends \ls\pluginmanager\PluginBase
 
         $appendForm = "";
         $this->getFacebook($appendForm);
+        $this->getGoogle($appendForm);
 
-
+        $event->append('registerForm', array('append' => true, 'formAppend' => $appendForm));
+        
     }
 
     public function getFacebook(&$appendForm){
