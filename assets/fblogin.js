@@ -1,3 +1,15 @@
+
+(function (d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) {
+        return;
+    }
+    js = d.createElement(s);
+    js.id = id;
+    js.src = "https://connect.facebook.net/en_US/sdk.js";
+    fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));
+
 window.fbAsyncInit = function () {
     FB.init({
         appId: facebookApiKey,
@@ -7,17 +19,6 @@ window.fbAsyncInit = function () {
     });
     FB.AppEvents.logPageView();
 };
-
-(function (d, s, id) {
-    var js, fjs = d.getElementsByTagName(s)[0];
-    if (d.getElementById(id)) {
-        return;
-    }
-    js = d.createElement(s);
-    js.id = id;
-    js.src = \"//connect.facebook.net/en_US/sdk.js\";
-    fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));
 
 // This is called with the results from from FB.getLoginStatus().
 function statusChangeCallback(response) {
@@ -58,9 +59,6 @@ function checkLoginState() {
 //
 // These three cases are handled in the callback function.
 
-FB.getLoginStatus(function (response) {
-    statusChangeCallback(response);
-});
 
 // Here we run a very simple test of the Graph API after login is
 // successful.  See statusChangeCallback() for when this call is made.
@@ -71,5 +69,5 @@ function testAPI() {
         document.getElementById('status').innerHTML =
             'Thanks for logging in, ' + response.name + '!';
     });
-}
 };
+

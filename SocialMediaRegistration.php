@@ -61,21 +61,21 @@ class SocialMediaRegistration extends \ls\pluginmanager\PluginBase
         $appendForm = "";
         $this->getFacebook($appendForm);
         $this->getGoogle($appendForm);
-
         $event->append('registerForm', array('append' => true, 'formAppend' => $appendForm));
 
     }
 
     public function getFacebook(&$appendForm){
         $settings = $this->getPluginSettings(true);
-
-        if($settings['facebookApiKey'] != ''){
-            $script = "<script>"
-            ."var facebookApiKey = '".$settings['facebookApiKey']."';"
-            .include('./assets/fblogin.js')
-            ."</script>";
-            Yii::app()->clientScript->registerScript('fbcode', $script, CClientScript::POS_END);
-            $appendForm.="<fb:login-button scope=\"public_profile,email\" onlogin=\"checkLoginState();\"></fb:login-button>";
+        
+        if($settings['facebookApiKey']['current'] != ''){
+            $script = "\n"
+            ."var facebookApiKey = '".$settings['facebookApiKey']['current']."';\n"
+            .file_get_contents(dirname(__FILE__).'/assets/fblogin.js')
+            ."";
+            Yii::app()->clientScript->registerScript('fbcode', $script, CClientScript::POS_BEGIN);
+            //$appendForm.="<fb:login-button size=\"large\" scope=\"public_profile,email\" onlogin=\"checkLoginState();\"></fb:login-button>";
+            $appendForm.='<div class="fb-login-button" data-max-rows="1" data-size="large" data-button-type="continue_with" ></div>';
 
         }
                 
@@ -83,16 +83,15 @@ class SocialMediaRegistration extends \ls\pluginmanager\PluginBase
 
     public function getGoogle(&$appendForm){
         $settings = $this->getPluginSettings(true);
-
-        if($settings['googleApiKey'] != ''){
-            Yii::app()->clientScript->registerScriptFile('googlecode',"https://apis.google.com/js/platform.js", CClientScript::POS_END);
-            $script = "<script>"
-            ."var googleApiKey = '".$settings['googleApiKey']."';"
-            .include('./assets/googlelogin.js')
-            ."</script>";
-            Yii::app()->clientScript->registerScript('googlecode',$script, CClientScript::POS_END);
+        
+        if($settings['googleApiKey']['current'] != ''){
+            Yii::app()->clientScript->registerScriptFile("https://apis.google.com/js/platform.js", CClientScript::POS_BEGIN);
+            $script = ""
+            ."var googleApiKey = '".$settings['googleApiKey']['current']."';"
+            .file_get_contents(dirname(__FILE__).'/assets/googlelogin.js')
+            ."";
+            Yii::app()->clientScript->registerScript('googlecode',$script, CClientScript::POS_BEGIN);
             $appendForm.="<div class=\"g-signin2\" data-onsuccess=\"onSignIn\"></div>";
-
         }
                 
     }
