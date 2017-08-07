@@ -63,7 +63,7 @@ class SocialMediaRegistration extends \ls\pluginmanager\PluginBase
         $this->getGoogle($appendForm);
 
         $event->append('registerForm', array('append' => true, 'formAppend' => $appendForm));
-        
+
     }
 
     public function getFacebook(&$appendForm){
@@ -74,7 +74,7 @@ class SocialMediaRegistration extends \ls\pluginmanager\PluginBase
             ."var facebookApiKey = '".$settings['facebookApiKey']."';"
             .include('./assets/fblogin.js')
             ."</script>";
-            Yii::app()->clientScript->registerScript('fbcode',$script);
+            Yii::app()->clientScript->registerScript('fbcode', $script, CClientScript::POS_END);
             $appendForm.="<fb:login-button scope=\"public_profile,email\" onlogin=\"checkLoginState();\"></fb:login-button>";
 
         }
@@ -85,12 +85,12 @@ class SocialMediaRegistration extends \ls\pluginmanager\PluginBase
         $settings = $this->getPluginSettings(true);
 
         if($settings['googleApiKey'] != ''){
-            Yii::app()->clientScript->registerScriptFile("https://apis.google.com/js/platform.js");
+            Yii::app()->clientScript->registerScriptFile('googlecode',"https://apis.google.com/js/platform.js", CClientScript::POS_END);
             $script = "<script>"
             ."var googleApiKey = '".$settings['googleApiKey']."';"
             .include('./assets/googlelogin.js')
             ."</script>";
-            Yii::app()->clientScript->registerScript('fbcode',$script);
+            Yii::app()->clientScript->registerScript('googlecode',$script, CClientScript::POS_END);
             $appendForm.="<div class=\"g-signin2\" data-onsuccess=\"onSignIn\"></div>";
 
         }
