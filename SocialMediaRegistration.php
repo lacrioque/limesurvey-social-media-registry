@@ -1,10 +1,10 @@
 <?php
 
 /**
- * Some extra quick-menu items to ease everyday usage
+ * Registration through social Media accounts
  *
- * @since 2016-04-22
- * @author Olle Härstedt
+ * @since 2017-08-07
+ * @author Markus Flür
  */
 class SocialMediaRegistration extends \ls\pluginmanager\PluginBase
 {
